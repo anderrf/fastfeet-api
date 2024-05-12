@@ -8,5 +8,21 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dayjs": "^1.11.11",
+    "zod": "^3.23.8",
+    "zod-validation-error": "^3.3.0"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@rocketseat/eslint-config": "^2.2.2",
+    "@typescript-eslint/eslint-plugin": "^7.8.0",
+    "@typescript-eslint/parser": "^7.8.0",
+    "dotenv": "^16.4.5",
+    "typescript": "^5.4.5",
+    "vite-tsconfig-paths": "^4.3.2",
+    "vitest": "^1.6.0"
+  }
 }

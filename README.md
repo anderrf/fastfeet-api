@@ -3,7 +3,7 @@
 
 ### Functional Requirements
 - [] There should be two possible roles for an user, delivery person or admin
-- [] It should be able to logon with CPF ans a password
+- [] It should be able to logon with CPF and a password
 - [] It should be able to perform CRUD actions over delivery people
 - [] It should be able to perform CRUD actions over packages
 - [] It should be able to perform CRUD actions over addressees
