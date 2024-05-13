@@ -1,12 +1,13 @@
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
+import { Cpf } from './value-objects/cpf'
 
 export interface DeliveryPersonProps {
   name: string
   email: string
   phoneNumber: string
-  cpf: string
+  cpf: Cpf
   password
   createdAt: Date
 }
@@ -49,11 +50,11 @@ export class DeliveryPerson extends Entity<DeliveryPersonProps> {
     this.props.phoneNumber = phoneNumber
   }
 
-  public get cpf(): string {
+  public get cpf(): Cpf {
     return this.props.cpf
   }
 
-  public set cpf(cpf: string) {
+  public set cpf(cpf: Cpf) {
     this.props.cpf = cpf
   }
 

@@ -6,6 +6,7 @@ export interface PackageProps {
   title: string
   description: string
   createdAt: Date
+  addressId: UniqueEntityId
   takenAt?: Date | null
   deliveredAt?: Date | null
   returnedAt?: Date | null
@@ -67,5 +68,9 @@ export class Package extends Entity<PackageProps> {
 
   public set returnedAt(returnedAt: Date | null | undefined) {
     this.props.returnedAt = returnedAt
+  }
+
+  public get addressId(): UniqueEntityId {
+    return this.props.addressId
   }
 }

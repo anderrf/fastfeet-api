@@ -1,13 +1,16 @@
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
+import { Cpf } from './value-objects/cpf'
+import { Cnpj } from './value-objects/cnpj'
+
+type AddresseeDocument = Cpf | Cnpj
 
 export interface AddresseeProps {
   name: string
   email: string
   phoneNumber: string
-  document: string
-  address: string
+  document: AddresseeDocument
   createdAt: Date
 }
 
@@ -49,20 +52,12 @@ export class Addressee extends Entity<AddresseeProps> {
     this.props.phoneNumber = phoneNumber
   }
 
-  public get document(): string {
+  public get document(): AddresseeDocument {
     return this.props.document
   }
 
-  public set document(document: string) {
+  public set document(document: AddresseeDocument) {
     this.props.document = document
-  }
-
-  public get address(): string {
-    return this.props.address
-  }
-
-  public set address(address: string) {
-    this.props.address = address
   }
 
   public get createdAt(): Date {
