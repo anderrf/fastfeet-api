@@ -15,11 +15,8 @@ export class ZipCode {
   static createFromText(text: string) {
     const zipCodeRegex = /\d{5}-\d{3}/
     const zipCodePattern = '$1-$2'
-    const zipCodeText = text
-      .normalize('NFKD')
-      .trim()
-      .replace(zipCodeRegex, zipCodePattern)
-    return new ZipCode(zipCodeText)
+    text.normalize('NFKD').trim().replace(zipCodeRegex, zipCodePattern)
+    return new ZipCode(text)
   }
 
   static create(value: string) {
