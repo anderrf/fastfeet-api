@@ -1,12 +1,9 @@
 import { Either, left, right } from '@/core/types/either'
 
-import { Cpf } from '../../enterprise/entities/value-objects/cpf'
 import { Encrypter } from '../cryptography/encrypter'
 import { HashComparer } from '../cryptography/hash-comparer'
 import { DeliveryPersonsRepository } from '../repositories/delivery-persons-repository'
 import { InvalidCredentialsError } from './errors/invalid-credentials-error'
-import { InvalidDocumentError } from './errors/invalid-document-error'
-import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
 interface AuthenticateDeliveryPersonUseCaseRequest {
   cpf: string
@@ -14,7 +11,7 @@ interface AuthenticateDeliveryPersonUseCaseRequest {
 }
 
 type AuthenticateDeliveryPersonUseCaseResponse = Either<
-  ResourceNotFoundError | InvalidDocumentError | InvalidCredentialsError,
+  InvalidCredentialsError,
   { accessToken: string }
 >
 
@@ -29,13 +26,9 @@ export class AuthenticateDeliveryPersonUseCase {
     password,
     cpf,
   }: AuthenticateDeliveryPersonUseCaseRequest): Promise<AuthenticateDeliveryPersonUseCaseResponse> {
-    const validatedCpf = Cpf.createFromText(cpf)
-    if (!validatedCpf.isValid()) {
-      return left(new InvalidDocumentError(cpf))
-    }
     const deliveryPerson = await this.deliveryPersonsRepository.findByCpf(cpf)
     if (!deliveryPerson) {
-      return left(new ResourceNotFoundError())
+      return left(new InvalidCredentialsError())
     }
 
     const isPasswordValid = await this.hashComparer.compare(

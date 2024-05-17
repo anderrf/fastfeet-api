@@ -22,4 +22,14 @@ export class InMemoryAdminsRepository implements AdminsRepository {
     const admin = this.items.find((admin) => admin.phoneNumber === phoneNumber)
     return admin ?? null
   }
+
+  async save(admin: Admin): Promise<void> {
+    const itemIndex = this.items.findIndex((item) => item.id.equals(admin.id))
+    this.items[itemIndex] = admin
+  }
+
+  async delete(admin: Admin): Promise<void> {
+    const itemIndex = this.items.findIndex((item) => item.id.equals(admin.id))
+    this.items.splice(itemIndex, 1)
+  }
 }
