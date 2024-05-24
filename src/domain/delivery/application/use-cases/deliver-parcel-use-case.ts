@@ -4,6 +4,8 @@ import { Parcel, ParcelStatus } from '../../enterprise/entities/parcel'
 import { DeliveryPersonsRepository } from '../repositories/delivery-persons-repository'
 import { ParcelsRepository } from '../repositories/parcels-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { ParcelOwnedByAnotherUserError } from './errors/parcel-owned-by-another-user-error'
+import { InvalidStatusForActionOverParcelError } from './errors/invalid-status-for-action-over-parcel-error'
 
 interface DeliverParcelUseCaseRequest {
   parcelId: string
@@ -30,7 +32,11 @@ export class DeliverParcelUseCase {
       return left(new ResourceNotFoundError())
     }
     if (parcel.status !== ParcelStatus.TAKEN) {
-      return left(new ResourceNotFoundError())
+      return left(
+        new InvalidStatusForActionOverParcelError(
+          ParcelStatus[ParcelStatus.TAKEN],
+        ),
+      )
     }
     const deliveryPerson =
       await this.deliveryPersonsRepository.findById(deliveryPersonId)
@@ -38,7 +44,7 @@ export class DeliverParcelUseCase {
       return left(new ResourceNotFoundError())
     }
     if (!parcel.deliveredBy?.equals(deliveryPerson.id)) {
-      return left(new ResourceNotFoundError())
+      return left(new ParcelOwnedByAnotherUserError(parcel.id.toString()))
     }
     parcel.deliver()
     await this.parcelsRepository.save(parcel)

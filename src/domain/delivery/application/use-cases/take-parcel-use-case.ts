@@ -4,6 +4,7 @@ import { Parcel, ParcelStatus } from '../../enterprise/entities/parcel'
 import { DeliveryPersonsRepository } from '../repositories/delivery-persons-repository'
 import { ParcelsRepository } from '../repositories/parcels-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { InvalidStatusForActionOverParcelError } from './errors/invalid-status-for-action-over-parcel-error'
 
 interface TakeParcelUseCaseRequest {
   parcelId: string
@@ -30,7 +31,11 @@ export class TakeParcelUseCase {
       return left(new ResourceNotFoundError())
     }
     if (parcel.status !== ParcelStatus.READY) {
-      return left(new ResourceNotFoundError())
+      return left(
+        new InvalidStatusForActionOverParcelError(
+          ParcelStatus[ParcelStatus.READY],
+        ),
+      )
     }
     const deliveryPerson =
       await this.deliveryPersonsRepository.findById(deliveryPersonId)
