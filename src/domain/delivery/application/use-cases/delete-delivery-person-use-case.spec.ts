@@ -24,7 +24,7 @@ describe('Delete Delivery Person Use Case', () => {
     })
     await inMemoryDeliveryPersonsRepository.create(deliveryperson)
     const result = await sut.execute({
-      cpf: '654.039.990-19',
+      deliveryPersonId: '654.039.990-19',
     })
     expect(result.isRight()).toBe(true)
     expect(inMemoryDeliveryPersonsRepository.items).toHaveLength(0)
@@ -32,7 +32,7 @@ describe('Delete Delivery Person Use Case', () => {
 
   it('should not be able to delete a nonexistent delivery person', async () => {
     const result = await sut.execute({
-      cpf: '654.039.990-19',
+      deliveryPersonId: '654.039.990-19',
     })
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(ResourceNotFoundError)

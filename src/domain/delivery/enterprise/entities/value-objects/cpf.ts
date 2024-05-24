@@ -1,4 +1,6 @@
-export class Cpf {
+import { RegisterDocument } from './register-document'
+
+export class Cpf implements RegisterDocument {
   public value: string
 
   private readonly cpfRegex = /\d{3}\.\d{3}\.\d{3}-\d{2}/

@@ -30,6 +30,7 @@ describe('Edit Admin Use Case', () => {
       email: 'anderson@teste.com',
       password: 'anderson@123',
       phoneNumber: '551399998888',
+      adminId: admin.id.toString(),
     })
     expect(result.isRight()).toBe(true)
     expect(result.value).toEqual(

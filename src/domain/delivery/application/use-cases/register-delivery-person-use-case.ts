@@ -50,7 +50,7 @@ export class RegisterDeliveryPersonUseCase {
     const deliverypersonWithSamePhoneNumber =
       await this.deliverypersonsRepository.findByPhoneNumber(phoneNumber)
     if (deliverypersonWithSamePhoneNumber) {
-      return left(new UserWithSamePhoneNumberAlreadyExistsError(email))
+      return left(new UserWithSamePhoneNumberAlreadyExistsError(phoneNumber))
     }
     const validatedCpf = Cpf.createFromText(cpf)
     if (!validatedCpf.isValid()) {

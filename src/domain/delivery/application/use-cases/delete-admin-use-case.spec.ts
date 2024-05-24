@@ -24,7 +24,7 @@ describe('Delete Admin Use Case', () => {
     })
     await inMemoryAdminsRepository.create(admin)
     const result = await sut.execute({
-      cpf: '654.039.990-19',
+      adminId: admin.id.toString(),
     })
     expect(result.isRight()).toBe(true)
     expect(inMemoryAdminsRepository.items).toHaveLength(0)
@@ -32,7 +32,7 @@ describe('Delete Admin Use Case', () => {
 
   it('should not be able to delete a nonexistent admin', async () => {
     const result = await sut.execute({
-      cpf: '654.039.990-19',
+      adminId: '654.039.990-19',
     })
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(ResourceNotFoundError)

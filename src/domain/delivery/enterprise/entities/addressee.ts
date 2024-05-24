@@ -1,10 +1,9 @@
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
-import { Cpf } from './value-objects/cpf'
-import { Cnpj } from './value-objects/cnpj'
+import { RegisterDocument } from './value-objects/register-document'
 
-type AddresseeDocument = Cpf | Cnpj
+type AddresseeDocument = RegisterDocument
 
 export interface AddresseeProps {
   name: string

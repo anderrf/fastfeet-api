@@ -5,7 +5,7 @@ import { DeliveryPersonsRepository } from '../repositories/delivery-persons-repo
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
 interface DeleteDeliveryPersonUseCaseRequest {
-  cpf: string
+  deliveryPersonId: string
 }
 
 type DeleteDeliveryPersonUseCaseResponse = Either<
@@ -17,9 +17,10 @@ export class DeleteDeliveryPersonUseCase {
   constructor(private deliverypersonsRepository: DeliveryPersonsRepository) {}
 
   async execute({
-    cpf,
+    deliveryPersonId,
   }: DeleteDeliveryPersonUseCaseRequest): Promise<DeleteDeliveryPersonUseCaseResponse> {
-    const deliveryperson = await this.deliverypersonsRepository.findByCpf(cpf)
+    const deliveryperson =
+      await this.deliverypersonsRepository.findByCpf(deliveryPersonId)
     if (!deliveryperson) {
       return left(new ResourceNotFoundError())
     }

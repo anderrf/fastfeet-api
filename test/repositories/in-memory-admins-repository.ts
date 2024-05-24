@@ -23,6 +23,11 @@ export class InMemoryAdminsRepository implements AdminsRepository {
     return admin ?? null
   }
 
+  async findById(id: string): Promise<Admin | null> {
+    const admin = this.items.find((admin) => admin.id.toString() === id)
+    return admin ?? null
+  }
+
   async save(admin: Admin): Promise<void> {
     const itemIndex = this.items.findIndex((item) => item.id.equals(admin.id))
     this.items[itemIndex] = admin

@@ -1,4 +1,6 @@
-export class Cnpj {
+import { RegisterDocument } from './register-document'
+
+export class Cnpj implements RegisterDocument {
   public value: string
 
   private readonly cnpjRegex = /\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}/
@@ -75,5 +77,13 @@ export class Cnpj {
       secondVal = 11 - secondVal
     }
     return `${firstVal}${secondVal}`
+  }
+
+  toPlainValue(): string {
+    return this.value.replaceAll('.', '').replace('-', '').replace('/', '')
+  }
+
+  toMaskedValue(): string {
+    return this.value
   }
 }

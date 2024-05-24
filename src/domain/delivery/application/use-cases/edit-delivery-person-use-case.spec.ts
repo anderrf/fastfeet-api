@@ -18,7 +18,7 @@ describe('Edit Delivery Person Use Case', () => {
     )
   })
 
-  it('should be able to edit an deliveryperson', async () => {
+  it('should be able to edit a delivery person', async () => {
     const deliveryperson = makeDeliveryPerson({
       name: 'Anderson Farias',
       cpf: Cpf.createFromText('654.039.990-19'),
@@ -33,6 +33,7 @@ describe('Edit Delivery Person Use Case', () => {
       email: 'anderson@teste.com',
       password: 'anderson@123',
       phoneNumber: '551399998888',
+      deliveryPersonId: deliveryperson.id.toString(),
     })
     expect(result.isRight()).toBe(true)
     expect(result.value).toEqual(

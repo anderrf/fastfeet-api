@@ -1,11 +1,12 @@
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { ZipCode } from './value-objects/zip-code'
 
 export interface AddressProps {
   street: string
   number: number
   district: string
-  zipCode: string
+  zipCode: ZipCode
   city: string
   state: string
   country: string
@@ -15,8 +16,8 @@ export interface AddressProps {
 }
 
 export class Address extends Entity<AddressProps> {
-  static create(props: AddressProps) {
-    return new Address({ ...props })
+  static create(props: AddressProps, id?: UniqueEntityId) {
+    return new Address({ ...props }, id)
   }
 
   public get street(): string {
@@ -43,11 +44,11 @@ export class Address extends Entity<AddressProps> {
     this.props.district = district
   }
 
-  public get zipCode(): string {
+  public get zipCode(): ZipCode {
     return this.props.zipCode
   }
 
-  public set zipCode(zipCode: string) {
+  public set zipCode(zipCode: ZipCode) {
     this.props.zipCode = zipCode
   }
 
