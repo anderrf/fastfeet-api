@@ -1,7 +1,17 @@
 import { ParcelsRepository } from '@/domain/delivery/application/repositories/parcels-repository'
-import { Parcel } from '@/domain/delivery/enterprise/entities/parcel'
+import {
+  Coordinate,
+  getDistanceBetweenCoordinates,
+} from '@/domain/delivery/application/use-cases/utils/get-distance-between-coordinates'
+import {
+  Parcel,
+  ParcelStatus,
+} from '@/domain/delivery/enterprise/entities/parcel'
+import { InMemoryAddressesRepository } from './in-memory-addresses-repository'
 
 export class InMemoryParcelsRepository implements ParcelsRepository {
+  constructor(private addressesRepository: InMemoryAddressesRepository) {}
+
   public items: Parcel[] = []
 
   async create(parcel: Parcel): Promise<void> {
@@ -34,6 +44,62 @@ export class InMemoryParcelsRepository implements ParcelsRepository {
     const parcels = this.items.filter(
       (item) => item.addressId.toString() === addressId,
     )
+    return parcels
+  }
+
+  async findManyAvailable(): Promise<Parcel[]> {
+    const parcels = this.items.filter(
+      (item) => item.status === ParcelStatus.READY,
+    )
+    return parcels
+  }
+
+  async findManyByStatus(status: string): Promise<Parcel[]> {
+    const parcels = this.items.filter(
+      (item) => ParcelStatus[item.status] === status,
+    )
+    return parcels
+  }
+
+  async findManyByDeliveryPersonId(
+    deliveryPersonId: string,
+  ): Promise<Parcel[]> {
+    const parcels = this.items.filter(
+      (item) => item.deliveredBy?.toString() === deliveryPersonId,
+    )
+    return parcels
+  }
+
+  async findManyNearbyDeliveryPerson(
+    deliveryPersonId: string,
+    coordinates: Coordinate,
+  ): Promise<Parcel[]> {
+    const MAX_DISTANCE_FOR_PACKAGES_IN_KILOMETERS = 10
+    const nearbyParcels: Parcel[] = []
+    for (const item of this.items) {
+      const address = await this.addressesRepository.findById(
+        item.addressId.toString(),
+      )
+      if (!address) {
+        throw new Error()
+      }
+      const distance = getDistanceBetweenCoordinates(
+        { latitude: coordinates.latitude, longitude: coordinates.longitude },
+        { latitude: address.latitude, longitude: address.longitude },
+      )
+      if (distance <= MAX_DISTANCE_FOR_PACKAGES_IN_KILOMETERS) {
+        nearbyParcels.push(item)
+      }
+    }
+    const parcels = nearbyParcels.filter((nearbyParcel) => {
+      if (!nearbyParcel.deliveredBy) {
+        return nearbyParcel.status === ParcelStatus.READY
+      }
+      if (nearbyParcel.deliveredBy.toString() !== deliveryPersonId) {
+        return false
+      }
+      return nearbyParcel.status !== ParcelStatus.RETURNED
+    })
     return parcels
   }
 }

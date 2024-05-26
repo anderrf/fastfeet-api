@@ -18,7 +18,9 @@ describe('Edit Parcel Use Case', () => {
     inMemoryAddresseesRepository = new InMemoryAddresseesRepository(
       inMemoryAddressesRepository,
     )
-    inMemoryParcelsRepository = new InMemoryParcelsRepository()
+    inMemoryParcelsRepository = new InMemoryParcelsRepository(
+      inMemoryAddressesRepository,
+    )
     sut = new EditParcelUseCase(
       inMemoryParcelsRepository,
       inMemoryAddressesRepository,
