@@ -1,4 +1,4 @@
-import { UseCaseError } from '@/domain/delivery/enterprise/errors/use-case-error'
+import { UseCaseError } from '@/core/errors/use-case-error'
 
 export class UserWithSameDocumentAlreadyExistsError
   extends Error

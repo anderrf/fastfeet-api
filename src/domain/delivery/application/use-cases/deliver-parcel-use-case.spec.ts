@@ -8,7 +8,10 @@ import { InMemoryDeliveryPersonsRepository } from 'test/repositories/in-memory-d
 import { InMemoryParcelsRepository } from 'test/repositories/in-memory-parcels-repository'
 
 import { DeliverParcelUseCase } from './deliver-parcel-use-case'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
+import { makeAttachment } from 'test/factories/make-attachment-factory'
 
+let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
 let inMemoryDeliveryPersonsRepository: InMemoryDeliveryPersonsRepository
 let inMemoryParcelsRepository: InMemoryParcelsRepository
 let inMemoryAddressesRepository: InMemoryAddressesRepository
@@ -17,19 +20,25 @@ let sut: DeliverParcelUseCase
 
 describe('Deliver Parcel Use Case', () => {
   beforeEach(() => {
+    inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository()
     inMemoryDeliveryPersonsRepository = new InMemoryDeliveryPersonsRepository()
     inMemoryAddressesRepository = new InMemoryAddressesRepository()
     inMemoryAddresseesRepository = new InMemoryAddresseesRepository(
       inMemoryAddressesRepository,
     )
-    inMemoryParcelsRepository = new InMemoryParcelsRepository()
+    inMemoryParcelsRepository = new InMemoryParcelsRepository(
+      inMemoryAddressesRepository,
+    )
     sut = new DeliverParcelUseCase(
       inMemoryDeliveryPersonsRepository,
+      inMemoryAttachmentsRepository,
       inMemoryParcelsRepository,
     )
   })
 
   it('should be able to deliver a parcel', async () => {
+    const attachment = makeAttachment()
+    await inMemoryAttachmentsRepository.create(attachment)
     const deliveryPerson = makeDeliveryPerson()
     await inMemoryDeliveryPersonsRepository.create(deliveryPerson)
     const addressee = makeAddressee()
@@ -46,6 +55,7 @@ describe('Deliver Parcel Use Case', () => {
     const result = await sut.execute({
       parcelId: parcel.id.toString(),
       deliveryPersonId: deliveryPerson.id.toString(),
+      attachmentId: attachment.id.toString(),
     })
     expect(result.isRight()).toBe(true)
     expect(inMemoryParcelsRepository.items[0]).toEqual(

@@ -21,6 +21,7 @@ export interface ParcelProps {
   takenAt?: Date | null
   deliveredAt?: Date | null
   returnedAt?: Date | null
+  attachmentId?: UniqueEntityId | null
 }
 
 export class Parcel extends Entity<ParcelProps> {
@@ -64,9 +65,7 @@ export class Parcel extends Entity<ParcelProps> {
   public makeAvailable(): void {
     this.props.readyAt = new Date()
     this.props.deliveredBy = null
-    this.props.takenAt = null
-    this.props.deliveredAt = null
-    this.props.returnedAt = null
+    this.props.attachmentId = null
   }
 
   public get takenAt(): Date | null | undefined {
@@ -82,7 +81,8 @@ export class Parcel extends Entity<ParcelProps> {
     return this.props.deliveredAt
   }
 
-  public deliver() {
+  public deliver(attachmentId: UniqueEntityId) {
+    this.attachmentId = attachmentId
     this.props.deliveredAt = new Date()
   }
 
@@ -111,18 +111,36 @@ export class Parcel extends Entity<ParcelProps> {
   }
 
   public get status(): ParcelStatus {
-    if (this.returnedAt) {
+    const dates = [
+      this.readyAt!,
+      this.takenAt!,
+      this.deliveredAt!,
+      this.returnedAt!,
+    ].filter((date) => !!date)
+    if (!dates.length) {
+      return ParcelStatus.NEW
+    }
+    const maxDate = dates.reduce((a, b) => (a > b ? a : b))
+    if (+maxDate === +this.returnedAt!) {
       return ParcelStatus.RETURNED
     }
-    if (this.deliveredAt) {
+    if (+maxDate === +this.deliveredAt!) {
       return ParcelStatus.DELIVERED
     }
-    if (this.takenAt) {
+    if (+maxDate === +this.takenAt!) {
       return ParcelStatus.TAKEN
     }
-    if (this.readyAt) {
+    if (+maxDate === +this.readyAt!) {
       return ParcelStatus.READY
     }
     return ParcelStatus.NEW
+  }
+
+  public get attachmentId(): UniqueEntityId | null | undefined {
+    return this.props.attachmentId
+  }
+
+  public set attachmentId(attachmentId: UniqueEntityId | null | undefined) {
+    this.props.attachmentId = attachmentId
   }
 }

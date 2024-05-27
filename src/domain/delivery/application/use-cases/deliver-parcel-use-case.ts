@@ -6,10 +6,12 @@ import { ParcelsRepository } from '../repositories/parcels-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 import { ParcelOwnedByAnotherUserError } from './errors/parcel-owned-by-another-user-error'
 import { InvalidStatusForActionOverParcelError } from './errors/invalid-status-for-action-over-parcel-error'
+import { AttachmentsRepository } from '../repositories/attachments-repository'
 
 interface DeliverParcelUseCaseRequest {
   parcelId: string
   deliveryPersonId: string
+  attachmentId: string
 }
 
 type DeliverParcelUseCaseResponse = Either<
@@ -20,15 +22,21 @@ type DeliverParcelUseCaseResponse = Either<
 export class DeliverParcelUseCase {
   constructor(
     private deliveryPersonsRepository: DeliveryPersonsRepository,
+    private attachmentsRepository: AttachmentsRepository,
     private parcelsRepository: ParcelsRepository,
   ) {}
 
   async execute({
     parcelId,
     deliveryPersonId,
+    attachmentId,
   }: DeliverParcelUseCaseRequest): Promise<DeliverParcelUseCaseResponse> {
     const parcel = await this.parcelsRepository.findById(parcelId)
     if (!parcel) {
+      return left(new ResourceNotFoundError())
+    }
+    const attachment = await this.attachmentsRepository.findById(attachmentId)
+    if (!attachment) {
       return left(new ResourceNotFoundError())
     }
     if (parcel.status !== ParcelStatus.TAKEN) {
@@ -46,7 +54,7 @@ export class DeliverParcelUseCase {
     if (!parcel.deliveredBy?.equals(deliveryPerson.id)) {
       return left(new ParcelOwnedByAnotherUserError(parcel.id.toString()))
     }
-    parcel.deliver()
+    parcel.deliver(attachment.id)
     await this.parcelsRepository.save(parcel)
     return right({ parcel })
   }
