@@ -28,7 +28,6 @@ describe('Edit Admin Use Case', () => {
       name: 'Anderson Rocha',
       cpf: '654.039.990-19',
       email: 'anderson@teste.com',
-      password: 'anderson@123',
       phoneNumber: '551399998888',
       adminId: admin.id.toString(),
     })

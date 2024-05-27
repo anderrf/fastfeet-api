@@ -15,7 +15,6 @@ interface EditDeliveryPersonUseCaseRequest {
   email: string
   phoneNumber: string
   cpf: string
-  password: string
   deliveryPersonId: string
 }
 
@@ -37,7 +36,6 @@ export class EditDeliveryPersonUseCase {
   async execute({
     name,
     email,
-    password,
     cpf,
     phoneNumber,
     deliveryPersonId,
@@ -75,10 +73,12 @@ export class EditDeliveryPersonUseCase {
     ) {
       return left(new UserWithSamePhoneNumberAlreadyExistsError(phoneNumber))
     }
-    const hashedPassword = await this.hashGenerator.hash(password)
+    const hashedPassword = await this.hashGenerator.hash(
+      deliveryperson.password,
+    )
     const deliverypersonToUpdate = DeliveryPerson.create(
       {
-        cpf: Cpf.createFromText(cpf),
+        cpf: validatedCpf,
         email,
         password: hashedPassword,
         phoneNumber,

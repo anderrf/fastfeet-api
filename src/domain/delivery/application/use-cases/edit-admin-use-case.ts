@@ -15,7 +15,6 @@ interface EditAdminUseCaseRequest {
   email: string
   phoneNumber: string
   cpf: string
-  password: string
   adminId: string
 }
 
@@ -37,7 +36,6 @@ export class EditAdminUseCase {
   async execute({
     name,
     email,
-    password,
     cpf,
     phoneNumber,
     adminId,
@@ -66,7 +64,7 @@ export class EditAdminUseCase {
     ) {
       return left(new UserWithSamePhoneNumberAlreadyExistsError(phoneNumber))
     }
-    const hashedPassword = await this.hashGenerator.hash(password)
+    const hashedPassword = await this.hashGenerator.hash(admin.password)
     const adminToUpdate = Admin.create(
       {
         cpf: validatedCpf,

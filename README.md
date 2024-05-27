@@ -12,7 +12,7 @@
 - [X] It should be able to mark a parcel as delivered
 - [X] It should be able to mark a parcel as returned
 - [X] It should be able to list parcels addressed to locations nearby the delivery person's
-- [] It should be able to change an user's password
+- [X] It should be able to change an user's password
 - [X] It should be able to list an user's parcels
 - [] It should notify the addressee whenever a parcel has its status updated
 
