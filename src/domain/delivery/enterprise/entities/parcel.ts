@@ -1,6 +1,10 @@
-import { Entity } from '@/core/entities/entity'
+import { AggregateRoot } from '@/core/entities/aggregate-root'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
+import { ParcelTakenEvent } from '../events/parcel-taken-event'
+import { ParcelDeliveredEvent } from '../events/parcel-delivered-event'
+import { ParcelReturnedEvent } from '../events/parcel-returned-event'
+import { ParcelReadyEvent } from '../events/parcel-ready-event'
 
 export enum ParcelStatus {
   NEW = 1,
@@ -24,7 +28,7 @@ export interface ParcelProps {
   attachmentId?: UniqueEntityId | null
 }
 
-export class Parcel extends Entity<ParcelProps> {
+export class Parcel extends AggregateRoot<ParcelProps> {
   static create(
     props: Optional<ParcelProps, 'createdAt'>,
     id?: UniqueEntityId,
@@ -66,6 +70,7 @@ export class Parcel extends Entity<ParcelProps> {
     this.props.readyAt = new Date()
     this.props.deliveredBy = null
     this.props.attachmentId = null
+    this.addDomainEvent(new ParcelReadyEvent(this))
   }
 
   public get takenAt(): Date | null | undefined {
@@ -75,6 +80,7 @@ export class Parcel extends Entity<ParcelProps> {
   public take(deliveryPersonId: UniqueEntityId) {
     this.props.deliveredBy = deliveryPersonId
     this.props.takenAt = new Date()
+    this.addDomainEvent(new ParcelTakenEvent(this))
   }
 
   public get deliveredAt(): Date | null | undefined {
@@ -84,6 +90,7 @@ export class Parcel extends Entity<ParcelProps> {
   public deliver(attachmentId: UniqueEntityId) {
     this.attachmentId = attachmentId
     this.props.deliveredAt = new Date()
+    this.addDomainEvent(new ParcelDeliveredEvent(this))
   }
 
   public get returnedAt(): Date | null | undefined {
@@ -92,6 +99,7 @@ export class Parcel extends Entity<ParcelProps> {
 
   public return() {
     this.props.returnedAt = new Date()
+    this.addDomainEvent(new ParcelReturnedEvent(this))
   }
 
   public get addressId(): UniqueEntityId {

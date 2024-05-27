@@ -8,6 +8,7 @@ import {
   ParcelStatus,
 } from '@/domain/delivery/enterprise/entities/parcel'
 import { InMemoryAddressesRepository } from './in-memory-addresses-repository'
+import { DomainEvents } from '@/core/events/domain-events'
 
 export class InMemoryParcelsRepository implements ParcelsRepository {
   constructor(private addressesRepository: InMemoryAddressesRepository) {}
@@ -21,6 +22,7 @@ export class InMemoryParcelsRepository implements ParcelsRepository {
   async save(parcel: Parcel): Promise<void> {
     const itemIndex = this.items.findIndex((item) => item.id.equals(parcel.id))
     this.items[itemIndex] = parcel
+    DomainEvents.dispatchEventsForAggregate(parcel.id)
   }
 
   async delete(parcel: Parcel): Promise<void> {

@@ -14,7 +14,7 @@
 - [X] It should be able to list parcels addressed to locations nearby the delivery person's
 - [X] It should be able to change an user's password
 - [X] It should be able to list an user's parcels
-- [] It should notify the addressee whenever a parcel has its status updated
+- [X] It should notify the addressee whenever a parcel has its status updated
 
 ### Non-Functional Requirements
 - [X] User's password should be encrypted in database
