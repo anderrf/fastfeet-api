@@ -4,6 +4,7 @@ import { Parcel, ParcelStatus } from '../../enterprise/entities/parcel'
 import { ParcelsRepository } from '../repositories/parcels-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 import { InvalidStatusForActionOverParcelError } from './errors/invalid-status-for-action-over-parcel-error'
+import { Injectable } from '@nestjs/common'
 
 interface ReturnParcelUseCaseRequest {
   parcelId: string
@@ -15,6 +16,7 @@ type ReturnParcelUseCaseResponse = Either<
   { parcel: Parcel }
 >
 
+@Injectable()
 export class ReturnParcelUseCase {
   constructor(private parcelsRepository: ParcelsRepository) {}
 

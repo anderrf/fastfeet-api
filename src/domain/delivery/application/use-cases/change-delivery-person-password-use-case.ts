@@ -4,6 +4,7 @@ import { DeliveryPerson } from '../../enterprise/entities/delivery-person'
 import { HashGenerator } from '../cryptography/hash-generator'
 import { DeliveryPersonsRepository } from '../repositories/delivery-persons-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { Injectable } from '@nestjs/common'
 
 interface ChangeDeliveryPersonPasswordUseCaseRequest {
   password: string
@@ -15,6 +16,7 @@ type ChangeDeliveryPersonPasswordUseCaseResponse = Either<
   { deliveryperson: DeliveryPerson }
 >
 
+@Injectable()
 export class ChangeDeliveryPersonPasswordUseCase {
   constructor(
     private deliverypersonsRepository: DeliveryPersonsRepository,

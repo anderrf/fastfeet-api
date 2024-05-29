@@ -9,6 +9,7 @@ import { UserWithSameDocumentAlreadyExistsError } from './errors/user-with-same-
 import { UserWithSameEmailAlreadyExistsError } from './errors/user-with-same-email-already-exists-error'
 import { UserWithSamePhoneNumberAlreadyExistsError } from './errors/user-with-same-phone-number-already-exists-error'
 import { InvalidDocumentError } from './errors/invalid-document-error'
+import { Injectable } from '@nestjs/common'
 
 interface EditAdminUseCaseRequest {
   name: string
@@ -27,6 +28,7 @@ type EditAdminUseCaseResponse = Either<
   { admin: Admin }
 >
 
+@Injectable()
 export class EditAdminUseCase {
   constructor(
     private adminsRepository: AdminsRepository,

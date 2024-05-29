@@ -3,6 +3,7 @@ import { Either, left, right } from '@/core/types/either'
 import { Address } from '../../enterprise/entities/address'
 import { AddressesRepository } from '../repositories/addresses-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { Injectable } from '@nestjs/common'
 
 interface DeleteAddressUseCaseRequest {
   addressId: string
@@ -13,6 +14,7 @@ type DeleteAddressUseCaseResponse = Either<
   { address: Address }
 >
 
+@Injectable()
 export class DeleteAddressUseCase {
   constructor(private addressesRepository: AddressesRepository) {}
 

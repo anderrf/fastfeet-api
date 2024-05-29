@@ -7,6 +7,7 @@ import { UserWithSameEmailAlreadyExistsError } from './errors/user-with-same-ema
 import { UserWithSamePhoneNumberAlreadyExistsError } from './errors/user-with-same-phone-number-already-exists-error'
 import { InvalidDocumentError } from './errors/invalid-document-error'
 import { AdminsRepository } from '../repositories/admins-repository'
+import { Injectable } from '@nestjs/common'
 
 interface RegisterAdminUseCaseRequest {
   name: string
@@ -24,6 +25,7 @@ type RegisterAdminUseCaseResponse = Either<
   { admin: Admin }
 >
 
+@Injectable()
 export class RegisterAdminUseCase {
   constructor(
     private adminsRepository: AdminsRepository,

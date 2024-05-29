@@ -4,6 +4,7 @@ import { Address } from '../../enterprise/entities/address'
 import { AddressesRepository } from '../repositories/addresses-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 import { ZipCode } from '../../enterprise/entities/value-objects/zip-code'
+import { Injectable } from '@nestjs/common'
 
 interface EditAddressUseCaseRequest {
   addressId: string
@@ -23,6 +24,7 @@ type EditAddressUseCaseResponse = Either<
   { address: Address }
 >
 
+@Injectable()
 export class EditAddressUseCase {
   constructor(private addressesRepository: AddressesRepository) {}
 

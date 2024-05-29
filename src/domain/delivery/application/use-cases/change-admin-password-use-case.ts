@@ -4,6 +4,7 @@ import { Admin } from '../../enterprise/entities/admin'
 import { HashGenerator } from '../cryptography/hash-generator'
 import { AdminsRepository } from '../repositories/admins-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { Injectable } from '@nestjs/common'
 
 interface ChangeAdminPasswordUseCaseRequest {
   password: string
@@ -15,6 +16,7 @@ type ChangeAdminPasswordUseCaseResponse = Either<
   { admin: Admin }
 >
 
+@Injectable()
 export class ChangeAdminPasswordUseCase {
   constructor(
     private adminsRepository: AdminsRepository,
