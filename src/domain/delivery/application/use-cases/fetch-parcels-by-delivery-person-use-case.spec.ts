@@ -8,7 +8,9 @@ import { InMemoryDeliveryPersonsRepository } from 'test/repositories/in-memory-d
 import { InMemoryParcelsRepository } from 'test/repositories/in-memory-parcels-repository'
 
 import { FetchParcelsByDeliveryPersonUseCase } from './fetch-parcels-by-delivery-person-use-case'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 
+let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
 let inMemoryDeliveryPersonsRepository: InMemoryDeliveryPersonsRepository
 let inMemoryParcelsRepository: InMemoryParcelsRepository
 let inMemoryAddressesRepository: InMemoryAddressesRepository
@@ -17,6 +19,7 @@ let sut: FetchParcelsByDeliveryPersonUseCase
 
 describe('Fetch Person By Delivery Person Use Case', () => {
   beforeEach(() => {
+    inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository()
     inMemoryDeliveryPersonsRepository = new InMemoryDeliveryPersonsRepository()
     inMemoryAddressesRepository = new InMemoryAddressesRepository()
     inMemoryAddresseesRepository = new InMemoryAddresseesRepository(
@@ -24,6 +27,7 @@ describe('Fetch Person By Delivery Person Use Case', () => {
     )
     inMemoryParcelsRepository = new InMemoryParcelsRepository(
       inMemoryAddressesRepository,
+      inMemoryAttachmentsRepository,
     )
     sut = new FetchParcelsByDeliveryPersonUseCase(inMemoryParcelsRepository)
   })

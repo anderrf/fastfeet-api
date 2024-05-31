@@ -42,6 +42,7 @@ describe('On Parcel Delivered', () => {
     )
     inMemoryParcelsRepository = new InMemoryParcelsRepository(
       inMemoryAddressesRepository,
+      inMemoryAttachmentsRepository,
     )
     sendNotificationUseCase = new SendNotificationUseCase(
       inMemoryNotificationsRepository,

@@ -28,6 +28,7 @@ describe('Deliver Parcel Use Case', () => {
     )
     inMemoryParcelsRepository = new InMemoryParcelsRepository(
       inMemoryAddressesRepository,
+      inMemoryAttachmentsRepository,
     )
     sut = new DeliverParcelUseCase(
       inMemoryDeliveryPersonsRepository,

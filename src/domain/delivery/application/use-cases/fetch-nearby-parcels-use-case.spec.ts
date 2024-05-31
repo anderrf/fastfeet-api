@@ -8,7 +8,9 @@ import { InMemoryDeliveryPersonsRepository } from 'test/repositories/in-memory-d
 import { InMemoryParcelsRepository } from 'test/repositories/in-memory-parcels-repository'
 
 import { FetchNearbyParcelsUseCase } from './fetch-nearby-parcels-use-case'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 
+let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
 let inMemoryDeliveryPersonsRepository: InMemoryDeliveryPersonsRepository
 let inMemoryParcelsRepository: InMemoryParcelsRepository
 let inMemoryAddressesRepository: InMemoryAddressesRepository
@@ -17,6 +19,7 @@ let sut: FetchNearbyParcelsUseCase
 
 describe('Fetch Nearby Parcels Use Case', () => {
   beforeEach(() => {
+    inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository()
     inMemoryDeliveryPersonsRepository = new InMemoryDeliveryPersonsRepository()
     inMemoryAddressesRepository = new InMemoryAddressesRepository()
     inMemoryAddresseesRepository = new InMemoryAddresseesRepository(
@@ -24,6 +27,7 @@ describe('Fetch Nearby Parcels Use Case', () => {
     )
     inMemoryParcelsRepository = new InMemoryParcelsRepository(
       inMemoryAddressesRepository,
+      inMemoryAttachmentsRepository,
     )
     sut = new FetchNearbyParcelsUseCase(inMemoryParcelsRepository)
   })

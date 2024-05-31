@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+enum UserRole {
+  DELIVERY_PERSON
+  ADMIN
+}
+
+model User {
+  id          String   @id @default(uuid())
+  cpf         String   @unique
+  name        String
+  email       String   @unique
+  phoneNumber String   @unique @map("phone_number")
+  password    String
+  createdAt   DateTime @default(now()) @map("created_at")
+  role        UserRole @default(DELIVERY_PERSON)
+  parcels     Parcel[]
+
+  @@map("users")
+}
+
+model Addressee {
+  id          String    @id @default(uuid())
+  name        String
+  email       String    @unique
+  phoneNumber String    @unique @map("phone_number")
+  document    String    @unique
+  createdAt   DateTime  @default(now()) @map("created_at")
+  addresses   Address[]
+  parcels     Parcel[]
+
+  @@map("addressees")
+}
+
+model Address {
+  id          String    @id @default(uuid())
+  street      String
+  number      String
+  district    String
+  zipCode     String    @map("zip_code")
+  city        String
+  state       String
+  country     String
+  latitude    Float
+  longitude   Float
+  addresseeId String    @map("addressee_id")
+  addressee   Addressee @relation(fields: [addresseeId], references: [id])
+  parcels     Parcel[]
+
+  @@map("addresses")
+}
+
+model Parcel {
+  id             String      @id @default(uuid())
+  title          String
+  description    String
+  createdAt      DateTime    @default(now()) @map("created_at")
+  addressId      String      @map("address_id")
+  addresseeId    String      @map("addressee_id")
+  deliveredBy    String?     @map("delivered_by")
+  readyAt        DateTime?   @map("ready_at")
+  takenAt        DateTime?   @map("taken_at")
+  deliveredAt    DateTime?   @map("delivered_at")
+  returnedAt     DateTime?   @map("returned_at")
+  attachmentId   String?     @map("attachment_id")
+  address        Address     @relation(fields: [addressId], references: [id])
+  addressee      Addressee   @relation(fields: [addresseeId], references: [id])
+  deliveryPerson User?       @relation(fields: [deliveredBy], references: [id])
+  attachment     Attachment? @relation(fields: [attachmentId], references: [id])
+
+  @@map("parcels")
+}
+
+model Attachment {
+  id      String   @id @default(uuid())
+  title   String
+  url     String
+  parcels Parcel[]
+
+  @@map("attachments")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}

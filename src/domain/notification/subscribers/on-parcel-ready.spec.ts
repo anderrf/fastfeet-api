@@ -16,8 +16,10 @@ import {
   SendNotificationUseCaseResponse,
 } from '../application/use-cases/send-notification'
 import { OnParcelReady } from './on-parcel-ready'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 
 let inMemoryDeliveryPersonsRepository: InMemoryDeliveryPersonsRepository
+let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
 let inMemoryAddresseesRepository: InMemoryAddresseesRepository
 let inMemoryAddressesRepository: InMemoryAddressesRepository
 let inMemoryParcelsRepository: InMemoryParcelsRepository
@@ -31,6 +33,7 @@ let sendNotificationExecuteSpy: SpyInstance<
 describe('On Parcel Ready', () => {
   beforeEach(() => {
     inMemoryDeliveryPersonsRepository = new InMemoryDeliveryPersonsRepository()
+    inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository()
     inMemoryNotificationsRepository = new InMemoryNotificationsRepository()
     inMemoryAddressesRepository = new InMemoryAddressesRepository()
     inMemoryAddresseesRepository = new InMemoryAddresseesRepository(
@@ -38,6 +41,7 @@ describe('On Parcel Ready', () => {
     )
     inMemoryParcelsRepository = new InMemoryParcelsRepository(
       inMemoryAddressesRepository,
+      inMemoryAttachmentsRepository,
     )
     sendNotificationUseCase = new SendNotificationUseCase(
       inMemoryNotificationsRepository,
