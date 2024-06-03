@@ -2,7 +2,7 @@
 ## Delivery services
 
 ### Functional Requirements
-- [] There should be two possible roles for an user, delivery person or admin
+- [X] There should be two possible roles for an user, delivery person or admin
 - [X] It should be able to logon with CPF and a password
 - [X] It should be able to perform CRUD actions over delivery people
 - [X] It should be able to perform CRUD actions over parcels
@@ -18,13 +18,13 @@
 
 ### Non-Functional Requirements
 - [X] User's password should be encrypted in database
-- [] Authentication should use JWT strategy
+- [ ] Authentication should use JWT strategy
 
 ### Business Rules
-- [] Only admin users can perform CRUD actions over parcels
-- [] Only admin users can perform CRUD actions over delivery people
-- [] Only admin users can perform CRUD actions over addressees
-- [] In order to mark a parcel as delivered, a photo of it should be sent
+- [ ] Only admin users can perform CRUD actions over parcels
+- [ ] Only admin users can perform CRUD actions over delivery people
+- [ ] Only admin users can perform CRUD actions over addressees
+- [ ] In order to mark a parcel as delivered, a photo of it should be sent
 - [X] Only the delivery person who took the parcel can mark it as delivered
-- [] Only an admin can alter an user's password
+- [ ] Only an admin can alter an user's password
 - [X] It shouldn't be able for a delivery person to list another's parcels

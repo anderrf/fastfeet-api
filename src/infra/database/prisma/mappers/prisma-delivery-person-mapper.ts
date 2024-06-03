@@ -29,6 +29,7 @@ export class PrismaDeliveryPersonMapper {
       phoneNumber: deliveryperson.phoneNumber,
       createdAt: deliveryperson.createdAt,
       password: deliveryperson.password,
+      role: 'DELIVERY_PERSON',
     }
   }
 }

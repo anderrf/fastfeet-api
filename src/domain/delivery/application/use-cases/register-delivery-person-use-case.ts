@@ -28,7 +28,7 @@ type RegisterDeliveryPersonUseCaseResponse = Either<
 @Injectable()
 export class RegisterDeliveryPersonUseCase {
   constructor(
-    private deliverypersonsRepository: DeliveryPersonsRepository,
+    private deliveryPersonsRepository: DeliveryPersonsRepository,
     private hashGenerator: HashGenerator,
   ) {}
 
@@ -40,17 +40,17 @@ export class RegisterDeliveryPersonUseCase {
     phoneNumber,
   }: RegisterDeliveryPersonUseCaseRequest): Promise<RegisterDeliveryPersonUseCaseResponse> {
     const deliverypersonWithSameCpf =
-      await this.deliverypersonsRepository.findByCpf(cpf)
+      await this.deliveryPersonsRepository.findByCpf(cpf)
     if (deliverypersonWithSameCpf) {
       return left(new UserWithSameDocumentAlreadyExistsError(cpf))
     }
     const deliverypersonWithSameEmail =
-      await this.deliverypersonsRepository.findByEmail(email)
+      await this.deliveryPersonsRepository.findByEmail(email)
     if (deliverypersonWithSameEmail) {
       return left(new UserWithSameEmailAlreadyExistsError(email))
     }
     const deliverypersonWithSamePhoneNumber =
-      await this.deliverypersonsRepository.findByPhoneNumber(phoneNumber)
+      await this.deliveryPersonsRepository.findByPhoneNumber(phoneNumber)
     if (deliverypersonWithSamePhoneNumber) {
       return left(new UserWithSamePhoneNumberAlreadyExistsError(phoneNumber))
     }
@@ -66,7 +66,7 @@ export class RegisterDeliveryPersonUseCase {
       cpf: validatedCpf,
       phoneNumber,
     })
-    await this.deliverypersonsRepository.create(deliveryperson)
+    await this.deliveryPersonsRepository.create(deliveryperson)
     return right({ deliveryperson })
   }
 }

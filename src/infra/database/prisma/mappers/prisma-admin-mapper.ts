@@ -27,6 +27,7 @@ export class PrismaAdminMapper {
       phoneNumber: admin.phoneNumber,
       createdAt: admin.createdAt,
       password: admin.password,
+      role: 'ADMIN',
     }
   }
 }
