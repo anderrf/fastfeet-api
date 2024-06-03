@@ -21,6 +21,12 @@ import { EditAddresseeController } from './controllers/edit-addressee.controller
 import { EditAddresseeUseCase } from '@/domain/delivery/application/use-cases/edit-addressee-use-case'
 import { DeleteAddresseeController } from './controllers/delete-addressee.controller'
 import { DeleteAddresseeUseCase } from '@/domain/delivery/application/use-cases/delete-addressee-use-case'
+import { CreateAddressController } from './controllers/create-address.controller'
+import { CreateAddressUseCase } from '@/domain/delivery/application/use-cases/create-address-use-case'
+import { EditAddressController } from './controllers/edit-address.controller'
+import { EditAddressUseCase } from '@/domain/delivery/application/use-cases/edit-address-use-case'
+import { DeleteAddressController } from './controllers/delete-address.controller'
+import { DeleteAddressUseCase } from '@/domain/delivery/application/use-cases/delete-address-use-case'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -34,6 +40,9 @@ import { DeleteAddresseeUseCase } from '@/domain/delivery/application/use-cases/
     CreateAddresseeController,
     EditAddresseeController,
     DeleteAddresseeController,
+    CreateAddressController,
+    EditAddressController,
+    DeleteAddressController,
   ],
   providers: [
     RegisterDeliveryPersonUseCase,
@@ -47,6 +56,9 @@ import { DeleteAddresseeUseCase } from '@/domain/delivery/application/use-cases/
     CreateAddresseeUseCase,
     EditAddresseeUseCase,
     DeleteAddresseeUseCase,
+    CreateAddressUseCase,
+    EditAddressUseCase,
+    DeleteAddressUseCase,
   ],
 })
 export class HttpModule {}
