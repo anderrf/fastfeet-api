@@ -7,7 +7,7 @@ import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { DeliveryPersonFactory } from 'test/factories/make-delivery-person-factory'
 
-describe('Authenticate DeliveryPerson (E2E)', () => {
+describe('Authenticate Delivery Person (E2E)', () => {
   let app: INestApplication
   let deliverypersonFactory: DeliveryPersonFactory
   let hasher: HashGenerator

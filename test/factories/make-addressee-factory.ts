@@ -6,6 +6,9 @@ import {
 import { faker } from '@faker-js/faker'
 
 import { makeRandomRegisterDocument } from './make-register-document'
+import { Injectable } from '@nestjs/common'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { PrismaAddresseeMapper } from '@/infra/database/prisma/mappers/prisma-addressee-mapper'
 
 export function makeAddressee(
   override: Partial<AddresseeProps> = {},
@@ -22,4 +25,18 @@ export function makeAddressee(
     id,
   )
   return addressee
+}
+
+@Injectable()
+export class AddresseeFactory {
+  constructor(private prisma: PrismaService) {}
+  async makePrismaAddressee(
+    data: Partial<AddresseeProps> = {},
+  ): Promise<Addressee> {
+    const addressee = makeAddressee(data)
+    await this.prisma.addressee.create({
+      data: PrismaAddresseeMapper.toPrisma(addressee),
+    })
+    return addressee
+  }
 }

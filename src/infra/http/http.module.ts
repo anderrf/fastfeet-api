@@ -1,19 +1,26 @@
-import { Module } from '@nestjs/common'
-import { RegisterUserController } from './controllers/register-user.controller'
-import { DatabaseModule } from '../database/database.module'
-import { CryptographyModule } from '../cryptography/cryptography.module'
-import { RegisterDeliveryPersonUseCase } from '@/domain/delivery/application/use-cases/register-delivery-person-use-case'
-import { RegisterAdminUseCase } from '@/domain/delivery/application/use-cases/register-admin-use-case'
-import { AuthenticateAdminController } from './controllers/authenticate-admin.controller'
-import { AuthenticateDeliveryPersonController } from './controllers/authenticate-delivery-person.controller'
 import { AuthenticateAdminUseCase } from '@/domain/delivery/application/use-cases/authenticate-admin-use-case'
 import { AuthenticateDeliveryPersonUseCase } from '@/domain/delivery/application/use-cases/authenticate-delivery-person-use-case'
-import { EditAdminUseCase } from '@/domain/delivery/application/use-cases/edit-admin-use-case'
-import { EditDeliveryPersonUseCase } from '@/domain/delivery/application/use-cases/edit-delivery-person-use-case'
-import { EditUserController } from './controllers/edit-user.controller'
-import { ChangePasswordController } from './controllers/change-password.controller'
 import { ChangeAdminPasswordUseCase } from '@/domain/delivery/application/use-cases/change-admin-password-use-case'
 import { ChangeDeliveryPersonPasswordUseCase } from '@/domain/delivery/application/use-cases/change-delivery-person-password-use-case'
+import { CreateAddresseeUseCase } from '@/domain/delivery/application/use-cases/create-addressee-use-case'
+import { EditAdminUseCase } from '@/domain/delivery/application/use-cases/edit-admin-use-case'
+import { EditDeliveryPersonUseCase } from '@/domain/delivery/application/use-cases/edit-delivery-person-use-case'
+import { RegisterAdminUseCase } from '@/domain/delivery/application/use-cases/register-admin-use-case'
+import { RegisterDeliveryPersonUseCase } from '@/domain/delivery/application/use-cases/register-delivery-person-use-case'
+import { Module } from '@nestjs/common'
+
+import { CryptographyModule } from '../cryptography/cryptography.module'
+import { DatabaseModule } from '../database/database.module'
+import { AuthenticateAdminController } from './controllers/authenticate-admin.controller'
+import { AuthenticateDeliveryPersonController } from './controllers/authenticate-delivery-person.controller'
+import { ChangePasswordController } from './controllers/change-password.controller'
+import { CreateAddresseeController } from './controllers/create-addressee.controller'
+import { EditUserController } from './controllers/edit-user.controller'
+import { RegisterUserController } from './controllers/register-user.controller'
+import { EditAddresseeController } from './controllers/edit-addressee.controller'
+import { EditAddresseeUseCase } from '@/domain/delivery/application/use-cases/edit-addressee-use-case'
+import { DeleteAddresseeController } from './controllers/delete-addressee.controller'
+import { DeleteAddresseeUseCase } from '@/domain/delivery/application/use-cases/delete-addressee-use-case'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -24,6 +31,9 @@ import { ChangeDeliveryPersonPasswordUseCase } from '@/domain/delivery/applicati
     AuthenticateDeliveryPersonController,
     EditUserController,
     ChangePasswordController,
+    CreateAddresseeController,
+    EditAddresseeController,
+    DeleteAddresseeController,
   ],
   providers: [
     RegisterDeliveryPersonUseCase,
@@ -34,6 +44,9 @@ import { ChangeDeliveryPersonPasswordUseCase } from '@/domain/delivery/applicati
     EditDeliveryPersonUseCase,
     ChangeAdminPasswordUseCase,
     ChangeDeliveryPersonPasswordUseCase,
+    CreateAddresseeUseCase,
+    EditAddresseeUseCase,
+    DeleteAddresseeUseCase,
   ],
 })
 export class HttpModule {}
