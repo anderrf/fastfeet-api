@@ -27,9 +27,18 @@ import { EditAddressController } from './controllers/edit-address.controller'
 import { EditAddressUseCase } from '@/domain/delivery/application/use-cases/edit-address-use-case'
 import { DeleteAddressController } from './controllers/delete-address.controller'
 import { DeleteAddressUseCase } from '@/domain/delivery/application/use-cases/delete-address-use-case'
+import { StorageModule } from '../storage/storage.module'
+import { UploadAttachmentController } from './controllers/upload-attachment.controller'
+import { UploadAttachmentUseCase } from '@/domain/delivery/application/use-cases/upload-attachment-use-case'
+import { CreateParcelController } from './controllers/create-parcel.controller'
+import { CreateParcelUseCase } from '@/domain/delivery/application/use-cases/create-parcel-use-case'
+import { EditParcelUseCase } from '@/domain/delivery/application/use-cases/edit-parcel-use-case'
+import { EditParcelController } from './controllers/edit-parcel.controller'
+import { DeleteParcelController } from './controllers/delete-parcel.controller'
+import { DeleteParcelUseCase } from '@/domain/delivery/application/use-cases/delete-parcel-use-case'
 
 @Module({
-  imports: [DatabaseModule, CryptographyModule],
+  imports: [DatabaseModule, CryptographyModule, StorageModule],
   exports: [],
   controllers: [
     RegisterUserController,
@@ -43,6 +52,10 @@ import { DeleteAddressUseCase } from '@/domain/delivery/application/use-cases/de
     CreateAddressController,
     EditAddressController,
     DeleteAddressController,
+    UploadAttachmentController,
+    CreateParcelController,
+    EditParcelController,
+    DeleteParcelController,
   ],
   providers: [
     RegisterDeliveryPersonUseCase,
@@ -59,6 +72,10 @@ import { DeleteAddressUseCase } from '@/domain/delivery/application/use-cases/de
     CreateAddressUseCase,
     EditAddressUseCase,
     DeleteAddressUseCase,
+    UploadAttachmentUseCase,
+    CreateParcelUseCase,
+    EditParcelUseCase,
+    DeleteParcelUseCase,
   ],
 })
 export class HttpModule {}

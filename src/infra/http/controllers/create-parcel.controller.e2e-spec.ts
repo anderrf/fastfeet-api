@@ -5,29 +5,32 @@ import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
+import { AddressFactory } from 'test/factories/make-address-factory'
 import { AddresseeFactory } from 'test/factories/make-addressee-factory'
 import { AdminFactory } from 'test/factories/make-admin-factory'
 
-describe('Create Address (E2E)', () => {
+describe('Create Parcel (E2E)', () => {
   let app: INestApplication
   let adminFactory: AdminFactory
   let addresseeFactory: AddresseeFactory
+  let addressFactory: AddressFactory
   let prisma: PrismaService
   let jwt: JwtService
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [AdminFactory, AddresseeFactory],
+      providers: [AdminFactory, AddresseeFactory, AddressFactory],
     }).compile()
     app = moduleRef.createNestApplication()
     adminFactory = moduleRef.get(AdminFactory)
     addresseeFactory = moduleRef.get(AddresseeFactory)
+    addressFactory = moduleRef.get(AddressFactory)
     prisma = moduleRef.get(PrismaService)
     jwt = moduleRef.get(JwtService)
     await app.init()
   })
 
-  test('[POST] /addressees/:addresseeId/addresses', async () => {
+  test('[POST] /parcels', async () => {
     const authorAdmin = await adminFactory.makePrismaAdmin()
     const accessToken = await jwt.sign({
       sub: authorAdmin.id.toString(),
@@ -35,29 +38,23 @@ describe('Create Address (E2E)', () => {
     })
     const addressee = await addresseeFactory.makePrismaAddressee()
     const addresseeId = addressee.id.toString()
+    const address = await addressFactory.makePrismaAddress({
+      addresseeId: addressee.id,
+    })
+    const addressId = address.id.toString()
     const response = await request(app.getHttpServer())
-      .post(`/addressees/${addresseeId}/addresses`)
+      .post(`/parcels`)
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
-        street: 'Av São Paulo',
-        number: 1000,
-        district: 'Centro',
-        zipCode: '11730-000',
-        city: 'Mongaguá',
-        state: 'São Paulo',
-        country: 'Brasil',
-        latitude: -50,
-        longitude: -70,
+        title: 'New Parcel',
+        description: 'Regular parcel for test',
+        addresseeId,
+        addressId,
       })
     expect(response.statusCode).toBe(201)
-    const addressOnDatabase = await prisma.address.findFirst({
-      where: { addresseeId },
+    const parcelOnDatabase = await prisma.parcel.findFirst({
+      where: { title: 'New Parcel' },
     })
-    expect(addressOnDatabase).toEqual(
-      expect.objectContaining({
-        street: 'Av São Paulo',
-        number: '1000',
-      }),
-    )
+    expect(parcelOnDatabase).toEqual(expect.objectContaining({}))
   })
 })
