@@ -46,7 +46,6 @@ describe('Make Parcel Available Use Case', () => {
     await inMemoryParcelsRepository.create(parcel)
     const result = await sut.execute({
       parcelId: parcel.id.toString(),
-      deliveryPersonId: deliveryPerson.id.toString(),
     })
     expect(result.isRight()).toBe(true)
     expect(inMemoryParcelsRepository.items[0]).toEqual(

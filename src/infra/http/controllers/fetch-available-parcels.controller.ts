@@ -29,7 +29,6 @@ export class FetchAvailableParcelsController {
       throw new BadRequestException()
     }
     const { parcels } = result.value
-    console.log(parcels)
     return { parcels: parcels.map(ParcelPresenter.toHTTP) }
   }
 }

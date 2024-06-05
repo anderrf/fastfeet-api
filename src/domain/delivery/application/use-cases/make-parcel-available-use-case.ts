@@ -7,7 +7,6 @@ import { Injectable } from '@nestjs/common'
 
 interface MakeParcelAvailableUseCaseRequest {
   parcelId: string
-  deliveryPersonId: string
 }
 
 type MakeParcelAvailableUseCaseResponse = Either<

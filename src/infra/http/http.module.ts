@@ -42,6 +42,14 @@ import { FetchAvailableParcelsToTakeUseCase } from '@/domain/delivery/applicatio
 import { FetchAvailableParcelsController } from './controllers/fetch-available-parcels.controller'
 import { FetchNearbyParcelsController } from './controllers/fetch-nearby-parcels.controller'
 import { FetchNearbyParcelsUseCase } from '@/domain/delivery/application/use-cases/fetch-nearby-parcels-use-case'
+import { MakeParcelAvailableController } from './controllers/make-parcel-available.controller'
+import { MakeParcelAvailableUseCase } from '@/domain/delivery/application/use-cases/make-parcel-available-use-case'
+import { TakeParcelUseCase } from '@/domain/delivery/application/use-cases/take-parcel-use-case'
+import { TakeParcelController } from './controllers/take-parcel.controller'
+import { DeliverParcelController } from './controllers/deliver-parcel.controller'
+import { DeliverParcelUseCase } from '@/domain/delivery/application/use-cases/deliver-parcel-use-case'
+import { ReturnParcelController } from './controllers/return-parcel.controller'
+import { ReturnParcelUseCase } from '@/domain/delivery/application/use-cases/return-parcel-use-case'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -65,6 +73,10 @@ import { FetchNearbyParcelsUseCase } from '@/domain/delivery/application/use-cas
     FetchParcelsByDeliveryPersonController,
     FetchAvailableParcelsController,
     FetchNearbyParcelsController,
+    MakeParcelAvailableController,
+    TakeParcelController,
+    DeliverParcelController,
+    ReturnParcelController,
   ],
   providers: [
     RegisterDeliveryPersonUseCase,
@@ -88,6 +100,10 @@ import { FetchNearbyParcelsUseCase } from '@/domain/delivery/application/use-cas
     FetchParcelsByDeliveryPersonUseCase,
     FetchAvailableParcelsToTakeUseCase,
     FetchNearbyParcelsUseCase,
+    MakeParcelAvailableUseCase,
+    TakeParcelUseCase,
+    DeliverParcelUseCase,
+    ReturnParcelUseCase,
   ],
 })
 export class HttpModule {}
