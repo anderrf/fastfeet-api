@@ -16,7 +16,9 @@ import {
   SendNotificationUseCaseResponse,
 } from '../application/use-cases/send-notification'
 import { OnParcelReturned } from './on-parcel-returned'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 
+let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
 let inMemoryDeliveryPersonsRepository: InMemoryDeliveryPersonsRepository
 let inMemoryAddresseesRepository: InMemoryAddresseesRepository
 let inMemoryAddressesRepository: InMemoryAddressesRepository
@@ -30,6 +32,7 @@ let sendNotificationExecuteSpy: SpyInstance<
 
 describe('On Parcel Returned', () => {
   beforeEach(() => {
+    inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository()
     inMemoryDeliveryPersonsRepository = new InMemoryDeliveryPersonsRepository()
     inMemoryNotificationsRepository = new InMemoryNotificationsRepository()
     inMemoryAddressesRepository = new InMemoryAddressesRepository()
@@ -38,6 +41,7 @@ describe('On Parcel Returned', () => {
     )
     inMemoryParcelsRepository = new InMemoryParcelsRepository(
       inMemoryAddressesRepository,
+      inMemoryAttachmentsRepository,
     )
     sendNotificationUseCase = new SendNotificationUseCase(
       inMemoryNotificationsRepository,

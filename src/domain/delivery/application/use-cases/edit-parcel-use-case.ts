@@ -4,6 +4,7 @@ import { AddressesRepository } from '@/domain/delivery/application/repositories/
 import { Parcel } from '../../enterprise/entities/parcel'
 import { ParcelsRepository } from '../repositories/parcels-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { Injectable } from '@nestjs/common'
 
 interface EditParcelUseCaseRequest {
   parcelId: string
@@ -17,6 +18,7 @@ type EditParcelUseCaseResponse = Either<
   { parcel: Parcel }
 >
 
+@Injectable()
 export class EditParcelUseCase {
   constructor(
     private parcelsRepository: ParcelsRepository,

@@ -3,10 +3,10 @@ import { Either, left, right } from '@/core/types/either'
 import { Parcel } from '../../enterprise/entities/parcel'
 import { ParcelsRepository } from '../repositories/parcels-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { Injectable } from '@nestjs/common'
 
 interface MakeParcelAvailableUseCaseRequest {
   parcelId: string
-  deliveryPersonId: string
 }
 
 type MakeParcelAvailableUseCaseResponse = Either<
@@ -14,6 +14,7 @@ type MakeParcelAvailableUseCaseResponse = Either<
   { parcel: Parcel }
 >
 
+@Injectable()
 export class MakeParcelAvailableUseCase {
   constructor(private parcelsRepository: ParcelsRepository) {}
 

@@ -9,6 +9,7 @@ import { UserWithSameEmailAlreadyExistsError } from './errors/user-with-same-ema
 import { UserWithSamePhoneNumberAlreadyExistsError } from './errors/user-with-same-phone-number-already-exists-error'
 import { InvalidDocumentError } from './errors/invalid-document-error'
 import { UserWithSameDocumentAlreadyExistsError } from './errors/user-with-same-document-already-exists-error'
+import { Injectable } from '@nestjs/common'
 
 interface EditDeliveryPersonUseCaseRequest {
   name: string
@@ -27,6 +28,7 @@ type EditDeliveryPersonUseCaseResponse = Either<
   { deliveryperson: DeliveryPerson }
 >
 
+@Injectable()
 export class EditDeliveryPersonUseCase {
   constructor(
     private deliverypersonsRepository: DeliveryPersonsRepository,

@@ -2,6 +2,7 @@ import { Either, right } from '@/core/types/either'
 
 import { Parcel } from '../../enterprise/entities/parcel'
 import { ParcelsRepository } from '../repositories/parcels-repository'
+import { Injectable } from '@nestjs/common'
 
 interface FetchNearbyParcelsUseCaseRequest {
   deliveryPersonId: string
@@ -11,6 +12,7 @@ interface FetchNearbyParcelsUseCaseRequest {
 
 type FetchNearbyParcelsUseCaseResponse = Either<null, { parcels: Parcel[] }>
 
+@Injectable()
 export class FetchNearbyParcelsUseCase {
   constructor(private parcelsRepository: ParcelsRepository) {}
 

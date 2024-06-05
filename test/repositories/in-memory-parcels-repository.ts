@@ -1,3 +1,4 @@
+import { AttachmentsRepository } from '@/domain/delivery/application/repositories/attachments-repository'
 import { ParcelsRepository } from '@/domain/delivery/application/repositories/parcels-repository'
 import {
   Coordinate,
@@ -11,7 +12,10 @@ import { InMemoryAddressesRepository } from './in-memory-addresses-repository'
 import { DomainEvents } from '@/core/events/domain-events'
 
 export class InMemoryParcelsRepository implements ParcelsRepository {
-  constructor(private addressesRepository: InMemoryAddressesRepository) {}
+  constructor(
+    private addressesRepository: InMemoryAddressesRepository,
+    private attachmentsRepository: AttachmentsRepository,
+  ) {}
 
   public items: Parcel[] = []
 
@@ -28,6 +32,14 @@ export class InMemoryParcelsRepository implements ParcelsRepository {
   async delete(parcel: Parcel): Promise<void> {
     const itemIndex = this.items.findIndex((item) => item.id.equals(parcel.id))
     this.items.splice(itemIndex, 1)
+    if (parcel.attachmentId) {
+      const attachment = await this.attachmentsRepository.findById(
+        parcel.attachmentId.toString(),
+      )
+      if (attachment) {
+        await this.attachmentsRepository.delete(attachment)
+      }
+    }
   }
 
   async findById(id: string): Promise<Parcel | null> {
@@ -56,10 +68,11 @@ export class InMemoryParcelsRepository implements ParcelsRepository {
     return parcels
   }
 
-  async findManyByStatus(status: string): Promise<Parcel[]> {
-    const parcels = this.items.filter(
-      (item) => ParcelStatus[item.status] === status,
-    )
+  async findManyByStatus(status: ParcelStatus): Promise<Parcel[]> {
+    if (!ParcelStatus[status]) {
+      throw new Error()
+    }
+    const parcels = this.items.filter((item) => item.status === status)
     return parcels
   }
 

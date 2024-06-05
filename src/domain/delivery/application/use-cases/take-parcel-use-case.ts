@@ -5,6 +5,7 @@ import { DeliveryPersonsRepository } from '../repositories/delivery-persons-repo
 import { ParcelsRepository } from '../repositories/parcels-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 import { InvalidStatusForActionOverParcelError } from './errors/invalid-status-for-action-over-parcel-error'
+import { Injectable } from '@nestjs/common'
 
 interface TakeParcelUseCaseRequest {
   parcelId: string
@@ -16,6 +17,7 @@ type TakeParcelUseCaseResponse = Either<
   { parcel: Parcel }
 >
 
+@Injectable()
 export class TakeParcelUseCase {
   constructor(
     private deliveryPersonsRepository: DeliveryPersonsRepository,

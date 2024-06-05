@@ -3,6 +3,7 @@ import { Either, left, right } from '@/core/types/either'
 import { Admin } from '../../enterprise/entities/admin'
 import { AdminsRepository } from '../repositories/admins-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { Injectable } from '@nestjs/common'
 
 interface DeleteAdminUseCaseRequest {
   adminId: string
@@ -13,6 +14,7 @@ type DeleteAdminUseCaseResponse = Either<
   { admin: Admin }
 >
 
+@Injectable()
 export class DeleteAdminUseCase {
   constructor(private adminsRepository: AdminsRepository) {}
 

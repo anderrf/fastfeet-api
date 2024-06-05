@@ -1,4 +1,4 @@
-import { Parcel } from '../../enterprise/entities/parcel'
+import { Parcel, ParcelStatus } from '../../enterprise/entities/parcel'
 import { Coordinate } from '../use-cases/utils/get-distance-between-coordinates'
 
 export abstract class ParcelsRepository {
@@ -9,7 +9,7 @@ export abstract class ParcelsRepository {
   abstract findManyByAddresseeId(addresseeId: string): Promise<Parcel[]>
   abstract findManyByAddressId(addressId: string): Promise<Parcel[]>
   abstract findManyAvailable(): Promise<Parcel[]>
-  abstract findManyByStatus(status: string): Promise<Parcel[]>
+  abstract findManyByStatus(status: ParcelStatus): Promise<Parcel[]>
   abstract findManyByDeliveryPersonId(
     deliveryPersonId: string,
   ): Promise<Parcel[]>

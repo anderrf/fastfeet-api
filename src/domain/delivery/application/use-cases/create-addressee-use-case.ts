@@ -7,6 +7,7 @@ import { InvalidDocumentError } from './errors/invalid-document-error'
 import { UserWithSameDocumentAlreadyExistsError } from './errors/user-with-same-document-already-exists-error'
 import { UserWithSameEmailAlreadyExistsError } from './errors/user-with-same-email-already-exists-error'
 import { UserWithSamePhoneNumberAlreadyExistsError } from './errors/user-with-same-phone-number-already-exists-error'
+import { Injectable } from '@nestjs/common'
 
 interface CreateAddresseeUseCaseRequest {
   name: string
@@ -23,6 +24,7 @@ type CreateAddresseeUseCaseResponse = Either<
   { addressee: Addressee }
 >
 
+@Injectable()
 export class CreateAddresseeUseCase {
   constructor(private addresseesRepository: AddresseesRepository) {}
 

@@ -6,7 +6,9 @@ import { InMemoryAddressesRepository } from 'test/repositories/in-memory-address
 import { InMemoryParcelsRepository } from 'test/repositories/in-memory-parcels-repository'
 
 import { DeleteParcelUseCase } from './delete-parcel-use-case'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 
+let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
 let inMemoryParcelsRepository: InMemoryParcelsRepository
 let inMemoryAddressesRepository: InMemoryAddressesRepository
 let inMemoryAddresseesRepository: InMemoryAddresseesRepository
@@ -14,11 +16,15 @@ let sut: DeleteParcelUseCase
 
 describe('Delete Parcel Use Case', () => {
   beforeEach(() => {
+    inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository()
     inMemoryAddressesRepository = new InMemoryAddressesRepository()
     inMemoryAddresseesRepository = new InMemoryAddresseesRepository(
       inMemoryAddressesRepository,
     )
-    inMemoryParcelsRepository = new InMemoryParcelsRepository()
+    inMemoryParcelsRepository = new InMemoryParcelsRepository(
+      inMemoryAddressesRepository,
+      inMemoryAttachmentsRepository,
+    )
     sut = new DeleteParcelUseCase(inMemoryParcelsRepository)
   })
 

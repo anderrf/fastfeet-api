@@ -5,19 +5,25 @@ import { CreateParcelUseCase } from './create-parcel-use-case'
 import { InMemoryAddresseesRepository } from 'test/repositories/in-memory-addressees-repository'
 import { makeAddressee } from 'test/factories/make-addressee-factory'
 import { makeAddress } from 'test/factories/make-address-factory'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 
 let inMemoryParcelsRepository: InMemoryParcelsRepository
 let inMemoryAddressesRepository: InMemoryAddressesRepository
+let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
 let inMemoryAddresseesRepository: InMemoryAddresseesRepository
 let sut: CreateParcelUseCase
 
 describe('Create Parcel Use Case', () => {
   beforeEach(() => {
+    inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository()
     inMemoryAddressesRepository = new InMemoryAddressesRepository()
     inMemoryAddresseesRepository = new InMemoryAddresseesRepository(
       inMemoryAddressesRepository,
     )
-    inMemoryParcelsRepository = new InMemoryParcelsRepository()
+    inMemoryParcelsRepository = new InMemoryParcelsRepository(
+      inMemoryAddressesRepository,
+      inMemoryAttachmentsRepository,
+    )
     sut = new CreateParcelUseCase(
       inMemoryAddressesRepository,
       inMemoryAddresseesRepository,

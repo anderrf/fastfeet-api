@@ -3,6 +3,7 @@ import { Either, left, right } from '@/core/types/either'
 import { Parcel } from '../../enterprise/entities/parcel'
 import { ParcelsRepository } from '../repositories/parcels-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { Injectable } from '@nestjs/common'
 
 interface DeleteParcelUseCaseRequest {
   parcelId: string
@@ -13,6 +14,7 @@ type DeleteParcelUseCaseResponse = Either<
   { parcel: Parcel }
 >
 
+@Injectable()
 export class DeleteParcelUseCase {
   constructor(private parcelsRepository: ParcelsRepository) {}
 

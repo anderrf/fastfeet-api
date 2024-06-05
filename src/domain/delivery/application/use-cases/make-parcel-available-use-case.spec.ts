@@ -8,7 +8,9 @@ import { InMemoryDeliveryPersonsRepository } from 'test/repositories/in-memory-d
 import { InMemoryParcelsRepository } from 'test/repositories/in-memory-parcels-repository'
 
 import { MakeParcelAvailableUseCase } from './make-parcel-available-use-case'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 
+let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
 let inMemoryDeliveryPersonsRepository: InMemoryDeliveryPersonsRepository
 let inMemoryParcelsRepository: InMemoryParcelsRepository
 let inMemoryAddressesRepository: InMemoryAddressesRepository
@@ -17,12 +19,16 @@ let sut: MakeParcelAvailableUseCase
 
 describe('Make Parcel Available Use Case', () => {
   beforeEach(() => {
+    inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository()
     inMemoryDeliveryPersonsRepository = new InMemoryDeliveryPersonsRepository()
     inMemoryAddressesRepository = new InMemoryAddressesRepository()
     inMemoryAddresseesRepository = new InMemoryAddresseesRepository(
       inMemoryAddressesRepository,
     )
-    inMemoryParcelsRepository = new InMemoryParcelsRepository()
+    inMemoryParcelsRepository = new InMemoryParcelsRepository(
+      inMemoryAddressesRepository,
+      inMemoryAttachmentsRepository,
+    )
     sut = new MakeParcelAvailableUseCase(inMemoryParcelsRepository)
   })
 
@@ -40,7 +46,6 @@ describe('Make Parcel Available Use Case', () => {
     await inMemoryParcelsRepository.create(parcel)
     const result = await sut.execute({
       parcelId: parcel.id.toString(),
-      deliveryPersonId: deliveryPerson.id.toString(),
     })
     expect(result.isRight()).toBe(true)
     expect(inMemoryParcelsRepository.items[0]).toEqual(

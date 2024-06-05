@@ -7,6 +7,7 @@ import { ResourceNotFoundError } from './errors/resource-not-found-error'
 import { ParcelOwnedByAnotherUserError } from './errors/parcel-owned-by-another-user-error'
 import { InvalidStatusForActionOverParcelError } from './errors/invalid-status-for-action-over-parcel-error'
 import { AttachmentsRepository } from '../repositories/attachments-repository'
+import { Injectable } from '@nestjs/common'
 
 interface DeliverParcelUseCaseRequest {
   parcelId: string
@@ -19,6 +20,7 @@ type DeliverParcelUseCaseResponse = Either<
   { parcel: Parcel }
 >
 
+@Injectable()
 export class DeliverParcelUseCase {
   constructor(
     private deliveryPersonsRepository: DeliveryPersonsRepository,
