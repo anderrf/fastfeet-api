@@ -36,6 +36,12 @@ import { EditParcelUseCase } from '@/domain/delivery/application/use-cases/edit-
 import { EditParcelController } from './controllers/edit-parcel.controller'
 import { DeleteParcelController } from './controllers/delete-parcel.controller'
 import { DeleteParcelUseCase } from '@/domain/delivery/application/use-cases/delete-parcel-use-case'
+import { FetchParcelsByDeliveryPersonUseCase } from '@/domain/delivery/application/use-cases/fetch-parcels-by-delivery-person-use-case'
+import { FetchParcelsByDeliveryPersonController } from './controllers/fetch-parcels-by-delivery-person.controller'
+import { FetchAvailableParcelsToTakeUseCase } from '@/domain/delivery/application/use-cases/fetch-available-parcels-to-take-use-case'
+import { FetchAvailableParcelsController } from './controllers/fetch-available-parcels.controller'
+import { FetchNearbyParcelsController } from './controllers/fetch-nearby-parcels.controller'
+import { FetchNearbyParcelsUseCase } from '@/domain/delivery/application/use-cases/fetch-nearby-parcels-use-case'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -56,6 +62,9 @@ import { DeleteParcelUseCase } from '@/domain/delivery/application/use-cases/del
     CreateParcelController,
     EditParcelController,
     DeleteParcelController,
+    FetchParcelsByDeliveryPersonController,
+    FetchAvailableParcelsController,
+    FetchNearbyParcelsController,
   ],
   providers: [
     RegisterDeliveryPersonUseCase,
@@ -76,6 +85,9 @@ import { DeleteParcelUseCase } from '@/domain/delivery/application/use-cases/del
     CreateParcelUseCase,
     EditParcelUseCase,
     DeleteParcelUseCase,
+    FetchParcelsByDeliveryPersonUseCase,
+    FetchAvailableParcelsToTakeUseCase,
+    FetchNearbyParcelsUseCase,
   ],
 })
 export class HttpModule {}

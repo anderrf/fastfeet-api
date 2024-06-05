@@ -133,17 +133,19 @@ export class PrismaParcelsRepository implements ParcelsRepository {
   ): Promise<Parcel[]> {
     const parcels = await this.prisma.$queryRaw<PrismaParcel[]>`
       WITH nearby_parcels AS (
-        SELECT *,
+        SELECT p.*,
         GREATEST(
-          COALESCE(ready_at, '1970-01-01'),
-          COALESCE(taken_at, '1970-01-01'),
-          COALESCE(delivered_at, '1970-01-01'),
-          COALESCE(returned_at, '1970-01-01'),
-          COALESCE(created_at, '1970-01-01')
+          COALESCE(p.ready_at, '1970-01-01'),
+          COALESCE(p.taken_at, '1970-01-01'),
+          COALESCE(p.delivered_at, '1970-01-01'),
+          COALESCE(p.returned_at, '1970-01-01'),
+          COALESCE(p.created_at, '1970-01-01')
         ) AS latest_date
-        FROM parcels
+        FROM parcels p
+        INNER JOIN addresses a
+          ON p.address_id = a.id
         WHERE 
-      ( 6371 * acos( cos( radians(${latitude}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(${longitude}) ) + sin( radians(${latitude}) ) * sin( radians( latitude ) ) ) ) <= 10
+      ( 6371 * acos( cos( radians(${latitude}) ) * cos( radians( a.latitude ) ) * cos( radians( a.longitude ) - radians(${longitude}) ) + sin( radians(${latitude}) ) * sin( radians( a.latitude ) ) ) ) <= 10
       )
       SELECT *
       FROM nearby_parcels
