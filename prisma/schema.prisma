@@ -10,15 +10,16 @@ enum UserRole {
 }
 
 model User {
-  id          String   @id @default(uuid())
-  cpf         String   @unique
-  name        String
-  email       String   @unique
-  phoneNumber String   @unique @map("phone_number")
-  password    String
-  createdAt   DateTime @default(now()) @map("created_at")
-  role        UserRole @default(DELIVERY_PERSON)
-  parcels     Parcel[]
+  id            String         @id @default(uuid())
+  cpf           String         @unique
+  name          String
+  email         String         @unique
+  phoneNumber   String         @unique @map("phone_number")
+  password      String
+  createdAt     DateTime       @default(now()) @map("created_at")
+  role          UserRole       @default(DELIVERY_PERSON)
+  parcels       Parcel[]
+  notifications Notification[]
 
   @@map("users")
 }
@@ -82,6 +83,19 @@ model Attachment {
   parcels Parcel[]
 
   @@map("attachments")
+}
+
+model Notification {
+  id          String    @id @default(uuid())
+  recipientId String    @map("recipient_id")
+  title       String
+  content     String
+  readAt      DateTime? @map("read_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  recipient User @relation(fields: [recipientId], references: [id])
+
+  @@map("notifications")
 }
 
 generator client {

@@ -4,7 +4,9 @@ import { ParcelsRepository } from '@/domain/delivery/application/repositories/pa
 import { ParcelDeliveredEvent } from '@/domain/delivery/enterprise/events/parcel-delivered-event'
 
 import { SendNotificationUseCase } from '../application/use-cases/send-notification'
+import { Injectable } from '@nestjs/common'
 
+@Injectable()
 export class OnParcelDelivered implements EventHandler {
   constructor(
     private parcelsRepository: ParcelsRepository,

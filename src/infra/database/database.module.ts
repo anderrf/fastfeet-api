@@ -12,6 +12,8 @@ import { PrismaAdminsRepository } from './prisma/repositories/prisma-admins-repo
 import { PrismaAddressesRepository } from './prisma/repositories/prisma-addresses-repository'
 import { PrismaAttachmentsRepository } from './prisma/repositories/prisma-attachments-repository'
 import { PrismaParcelsRepository } from './prisma/repositories/prisma-parcels-repository'
+import { NotificationsRepository } from '@/domain/notification/application/repositories/notifications-repository'
+import { PrismaNotificationsRepository } from './prisma/repositories/prisma-notifications-repository'
 
 @Module({
   imports: [],
@@ -23,6 +25,7 @@ import { PrismaParcelsRepository } from './prisma/repositories/prisma-parcels-re
     AddressesRepository,
     AttachmentsRepository,
     ParcelsRepository,
+    NotificationsRepository,
   ],
   providers: [
     PrismaService,
@@ -35,6 +38,10 @@ import { PrismaParcelsRepository } from './prisma/repositories/prisma-parcels-re
     { provide: AddressesRepository, useClass: PrismaAddressesRepository },
     { provide: AttachmentsRepository, useClass: PrismaAttachmentsRepository },
     { provide: ParcelsRepository, useClass: PrismaParcelsRepository },
+    {
+      provide: NotificationsRepository,
+      useClass: PrismaNotificationsRepository,
+    },
   ],
 })
 export class DatabaseModule {}
