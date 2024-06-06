@@ -50,6 +50,8 @@ import { DeliverParcelController } from './controllers/deliver-parcel.controller
 import { DeliverParcelUseCase } from '@/domain/delivery/application/use-cases/deliver-parcel-use-case'
 import { ReturnParcelController } from './controllers/return-parcel.controller'
 import { ReturnParcelUseCase } from '@/domain/delivery/application/use-cases/return-parcel-use-case'
+import { ReadNotificationController } from './controllers/read-notification.controller'
+import { ReadNotificationUseCase } from '@/domain/notification/application/use-cases/read-notification'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -77,6 +79,7 @@ import { ReturnParcelUseCase } from '@/domain/delivery/application/use-cases/ret
     TakeParcelController,
     DeliverParcelController,
     ReturnParcelController,
+    ReadNotificationController,
   ],
   providers: [
     RegisterDeliveryPersonUseCase,
@@ -104,6 +107,7 @@ import { ReturnParcelUseCase } from '@/domain/delivery/application/use-cases/ret
     TakeParcelUseCase,
     DeliverParcelUseCase,
     ReturnParcelUseCase,
+    ReadNotificationUseCase,
   ],
 })
 export class HttpModule {}

@@ -8,6 +8,7 @@ import {
 import { PrismaParcelMapper } from '../mappers/prisma-parcel-mapper'
 import { Coordinate } from '@/domain/delivery/application/use-cases/utils/get-distance-between-coordinates'
 import { Prisma, Parcel as PrismaParcel } from '@prisma/client'
+import { DomainEvents } from '@/core/events/domain-events'
 
 @Injectable()
 export class PrismaParcelsRepository implements ParcelsRepository {
@@ -34,6 +35,7 @@ export class PrismaParcelsRepository implements ParcelsRepository {
       data,
       where: { id: data.id },
     })
+    DomainEvents.dispatchEventsForAggregate(parcel.id)
   }
 
   async delete(parcel: Parcel): Promise<void> {
